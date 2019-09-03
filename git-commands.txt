@@ -1,0 +1,6 @@
+git status
+remote -v
+add
+commit
+push
+pull

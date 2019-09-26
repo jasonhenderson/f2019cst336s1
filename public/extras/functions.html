@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>functions</title>
+</head>
+
+<body>
+
+    <script>
+        // If i declare function, i can call it anywhere
+        example1("Jason", 44);
+
+        // regardless of declaration of parameters, arguments can be passed in
+        // arguments reserved word
+        function example1() {
+
+            console.log('example1', arguments);
+
+        }
+
+        example1("Henderson", 24);
+
+        // This will work
+        //example1 = "Name";
+        
+        console.log(example1);
+        
+        // Won;t work
+        //example2();
+
+        let example2 = function() {
+            console.log('example2', arguments);
+            
+            return function() {
+                return "done";
+            }();
+        }("Hello Dolly", 0);
+        
+        console.log('yes!', example2("1st Arg"));
+        
+        // This will break the function...
+        //let name = "Jason";
+        // name = example2;
+        //name();
+    </script>
+
+</body>
+
+</html>

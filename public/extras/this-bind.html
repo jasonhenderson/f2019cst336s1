@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>objects, prototypes, new</title>
+</head>
+
+<body>
+
+    <script>
+        // Objects:
+
+        let kia = {
+            make: 'kia',
+            model: 'sedona',
+            year: 2019,
+            accelerate: function(rate) {
+                console.log("this is what this is", this);
+                console.log('accelerating at', rate);
+            }
+        };
+
+        console.log('make of car is', kia.make);
+        console.log('model of car is', kia["model"]);
+
+        kia.accelerate(32);
+
+        kia["accelerate"](9.8);
+
+
+        function Car(make, model, year) {
+            let self = this;
+            this.make = make;
+            this.model = model;
+            this.year = year;
+            this.accelerate = function(rate) {
+                console.log("a(r): this is what self is", self);
+                console.log("a(r): this is what this is", this);
+                console.log('a(r): accelerating at', rate);
+            }
+
+            this.decelerate = {
+                fast: function(rate) {
+                    console.log("sf(r): this is what self is", self);
+                    console.log("sf(r): this is what this is", this);
+                    console.log('sf(r): stopping fast at', rate);
+                }
+            }
+
+            function demo() {
+                console.log("d(): this is what self is", self);
+                console.log("d(): this is what this is", this);
+            }
+
+            demo.bind(this)();
+            let test = new this.accelerate(100);
+            //return this;
+        }
+
+        let ford = new Car('ford', 'mustang', 2019);
+        console.log('ford', ford);
+        ford.accelerate(200)
+        ford.decelerate.fast(300);
+        // ford.demo();
+
+
+        Object.setPrototypeOf
+
+
+        // typeof
+    </script>
+
+</body>
+
+</html>

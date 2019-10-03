@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>objects, prototypes, new</title>
+</head>
+
+<body>
+
+    <script>
+        // Objects:
+
+        let kia = {
+            make: 'kia',
+            model: 'sedona',
+            year: 2019,
+            accelerate: function(rate) {
+                console.log("ka(r): this is what this is", this);
+                console.log('ka(r): accelerating at', rate);
+            }
+        };
+
+        console.log('make of car is (using dot)', kia.make);
+        console.log('model of car is (using indexer)', kia["model"]);
+
+        kia.accelerate(32);
+
+        kia["accelerate"](9.8);
+
+        function Car(make, model, year) {
+            console.log('inside Car function, \'this\' is', this);
+
+            let self = this;
+            this.make = make;
+            this.model = model;
+            this.year = year;
+            this.accelerate = function(rate) {
+                console.log("Ca(r): this is what self is", self);
+                console.log("Ca(r): this is what this is", this);
+                console.log('Ca(r): accelerating at', rate);
+            }
+
+            // quasi-equivalent of a private method for Car
+            // function demo() {
+            //     console.log("d(): this is what self is", self);
+            //     console.log("d(): this is what this is", this);
+            // }
+            
+            console.log('decelerating the hard way (doesnt work)')
+            //this.__proto__.decelerate(-400);
+            //Car.prototype.decelerate(-900)
+
+            // let demoObject = new demo();
+
+        }
+
+        // Run Car without new
+        //Car();
+
+        let ford = new Car('ford', 'mustang', 2019);
+
+        console.log('ford object is', ford);
+
+        ford.accelerate(200);
+        ford.__proto__.decelerate(-400);
+        // console.log('try newing accelerate...')
+        // let stupid = new ford.accelerate();
+
+        // ford.demo();
+        // demo();
+
+        Car.prototype.decelerate = function(rate) {
+            console.log("Cd(r): this is what this is", this);
+            console.log('Cd(r): decelerating at', rate);
+        }
+
+        ford.decelerate(-100);
+
+        // Let's fix up my kia
+        kia.color = "black";
+        kia.decelerate = function() {
+            console.log('kd() has a this of', this);
+        }
+        
+        Object.setPrototypeOf(kia, new Car());
+        
+        kia.decelerate();
+
+        //Object.setPrototypeOf();
+
+
+        // typeof
+    </script>
+
+</body>
+
+</html>

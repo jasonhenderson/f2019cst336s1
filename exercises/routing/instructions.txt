@@ -11,7 +11,8 @@
 Your router should have 2 routes:
 
 A. GET route that renders your view, 
-   passing in the title and other info you need
+   passing in the title and other info you need.
    
-B. POST route that passes data up and 
-   receives it back down after a simple modification
+B. POST route that passes JSON data up and 
+   receives JSON data back down after a simple modification 
+   you make inside the route.

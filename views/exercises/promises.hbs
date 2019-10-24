@@ -3,6 +3,11 @@
     // return a full name
 
     ////////////////////////////////////////////////////////////
+    // 0. Make sure you added a new route and updated app.js 
+    // with the route information
+    ////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////
     // 1. "Normal" function
     ////////////////////////////////////////////////////////////
 
@@ -50,7 +55,7 @@
     let data = {};
     getFullNameSyncByRef('John', 'Adam', 'Smith', data);
     console.log('(sync, by ref) full name is', data.value);
-    
+
     ////////////////////////////////////////////////////////////
     // 3. Pass values back using a "callback"
     ////////////////////////////////////////////////////////////
@@ -77,4 +82,52 @@
         console.log('(async, callback) full name is', fullName);
     });
     console.log('(async, callback) called');
+
+    ////////////////////////////////////////////////////////////
+    // 4. Using promises instead of callbacks
+    ////////////////////////////////////////////////////////////
+    function getFullNameAsyncPromises(first, middle, last, done) {
+        return new Promise(
+            function(resolve, reject) {
+                try {
+                    console.log('starting get of full name...(async, promises)');
+
+                    let fullName = first + " " + middle + " " + last;
+
+                    console.log('doing long operation...(async, promises)');
+
+                    // Simulate something that takes a long time
+                    for (let i = 0; i < 1000000000; i++) {}
+
+                    console.log('done with operation. (async, promises)');
+
+                    // Try an error by uncommenting this
+                    //throw(new Error('forced error'));
+                    
+                    resolve(fullName);
+                }
+                catch (err) {
+                    let newErr = new Error('big promise problem: ' + err.message);
+                    reject(newErr);
+                }
+            }
+        );
+
+    }
+
+    console.log('getting full name (async, promises)...');
+    
+    // This just sets us up with a promise to do something
+    let promiseFullName = getFullNameAsyncPromises('John', 'Adam', 'Smith');
+    
+    // NOW we do what we promised and wait for the result (or error)
+    promiseFullName
+        .then(function(fullName) {
+            console.log('(async, promises) full name is', fullName);
+        })
+        .catch(function(err) {
+            console.log('error in (async, promises)', err);
+        })
+        
+    console.log('(async, promises) called');
 </script>

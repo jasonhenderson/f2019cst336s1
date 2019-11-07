@@ -60,27 +60,42 @@
     // 3. Pass values back using a "callback"
     ////////////////////////////////////////////////////////////
 
-    function getFullNameAsync(first, middle, last, done) {
-        console.log('starting get of full name...(async, callback)');
+    function getFullNameAsync(first, middle, last, done, fail) {
 
-        let fullName = first + " " + middle + " " + last;
+        try {
+            console.log('starting get of full name...(async, callback)');
 
-        console.log('doing long operation...(async, callback)');
+            let fullName = first + " " + middle + " " + last;
 
-        // Simulate something that takes a long time
-        //for (let i = 0; i < 1000000000; i++) {}
+            console.log('doing long operation...(async, callback)');
 
-        console.log('done with (async, callback) operation.');
+            // Simulate something that takes a long time
+            //for (let i = 0; i < 1000000000; i++) {}
 
-        if (done) {
-            done(fullName);
+            // Try an error by uncommenting this
+            //throw(new Error('forced error'));
+
+            console.log('done with (async, callback) operation.');
+
+            if (done) {
+                done(fullName);
+            }
+        }
+        catch (err) {
+            if (fail) {
+                fail(err);
+            }
         }
     }
 
     console.log('getting full name (async, callback)...');
-    getFullNameAsync('John', 'Adam', 'Smith', function(fullName) {
-        console.log('(async, callback) full name is', fullName);
-    });
+    getFullNameAsync('John', 'Adam', 'Smith',
+        function(fullName) {
+            console.log('(async, callback) full name is', fullName);
+        },
+        function(err) {
+            console.log('(async, callback) error', err);
+        });
     console.log('(async, callback) called');
 
     ////////////////////////////////////////////////////////////
@@ -103,7 +118,7 @@
 
                     // Try an error by uncommenting this
                     //throw(new Error('forced error'));
-                    
+
                     resolve(fullName);
                 }
                 catch (err) {
@@ -116,10 +131,10 @@
     }
 
     console.log('getting full name (async, promises)...');
-    
+
     // This just sets us up with a promise to do something
     let promiseFullName = getFullNameAsyncPromises('John', 'Adam', 'Smith');
-    
+
     // NOW we do what we promised and wait for the result (or error)
     promiseFullName
         .then(function(fullName) {
@@ -128,6 +143,6 @@
         .catch(function(err) {
             console.log('error in (async, promises)', err);
         })
-        
+
     console.log('(async, promises) called');
 </script>

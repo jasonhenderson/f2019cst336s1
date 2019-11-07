@@ -20,13 +20,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ROUTING
 ////////////////////////////////////////////////////////////
 
+// Setup MySQL admin routes
+// This will take the route /myadmin away from you!!!
+var mysqlAdmin = require('node-mysql-admin');
+app.use(mysqlAdmin(app));
+
+// Setup your own routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
 var routingExerciseRouter = require('./routes/exercises/routing');
 var exerciseRouter = require('./routes/exercises/index');
+var mysqlRouter = require('./public/examples/mysql/router');
 
 app.use('/', indexRouter);
+app.use('/mysql', mysqlRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/exercises/routing', routingExerciseRouter);

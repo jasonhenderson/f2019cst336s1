@@ -1,0 +1,19 @@
+<h1>{{title}}</h1>
+<hr />
+    <!-- USE BOOTSTRAP FLEXBOX INSTEAD OF TABLES -->
+    <table>
+        <thead>
+            <tr>
+                <th>quote</th>
+                <th>author</th>
+            </tr>
+        </thead>
+        <tbody>
+{{#each quotes}}
+            <tr>
+                <td>{{quote}}</td>
+                <td>{{fullName}}</td>
+            </tr>
+{{/each}}
+        </tbody>
+    </table>

@@ -1,0 +1,57 @@
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<h1>{{title}}</h1>
+
+Welcome, {{username}}
+
+<div>
+    <button id="logoutButton" class="btn btn-danger">Logout</button>
+</div>
+
+<div id="message" class="alert alert-danger hidden" role="alert">
+    This is a danger alert—check it out!
+</div>
+
+<script>
+    $(document).ready(function() {
+
+        // $('#message').hide();
+
+        $('#logoutButton').on('click', function(e) {
+            // Do not submit until I am ready
+            e.preventDefault();
+
+            $.ajax({
+                type: "GET",
+                url: "/auth/logout",
+                dataType: "json",
+                success: function(result, status) {
+                    console.log("got logout status back", result);
+                    if (result.successful) {
+                        // This will navigate to wherever i say...
+                        window.location.href = '/auth/login';
+                    }
+                    else {
+                        // Show an error message or something and stay here
+                        $('#message').html(result.message);
+                        $('#message').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    err = eval("error: (" + xhr.responseText + ")");
+                    console.error(err);
+                },
+                complete: function(data, status) { //optional, used for debugging purposes
+                    console.log(status);
+                }
+            });
+
+
+        })
+
+    });
+</script>

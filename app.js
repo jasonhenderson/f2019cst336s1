@@ -41,6 +41,7 @@ var exerciseRouter = require('./routes/exercises/index');
 // Examples
 var mysqlExampleRouter = require('./public/examples/mysql/router');
 var authExampleRouter = require('./public/examples/auth/router');
+var uploadExampleRouter = require('./public/examples/file-upload/router');
 
 // Labs
 var lab9Router = require('./public/labs/9/router');
@@ -57,6 +58,7 @@ app.use('/exercises', exerciseRouter);
 // Examples
 app.use('/mysql', mysqlExampleRouter);
 app.use('/auth', authExampleRouter);
+app.use('/upload', uploadExampleRouter);
 
 // Labs
 app.use('/lab/9', lab9Router);

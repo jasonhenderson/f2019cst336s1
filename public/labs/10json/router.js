@@ -24,7 +24,7 @@ l9_author a ON q.authorId = a.authorId
             if (error) throw error;
             // console.log('The quotes are: ', results);
 
-            res.render('../public/labs/10/views/index', {
+            res.render('../public/labs/10json/views/index', {
                 title: 'Lab 10 Quotes',
                 quotes: results
             });
@@ -34,51 +34,53 @@ l9_author a ON q.authorId = a.authorId
 
 });
 
-router.get('/quotes/edit', (req, res) => {
+router.get('/quote/:id', (req, res) => {
 
     // If this is an edit instead of an add (maybe change the route name from add to edit)
     // you would check to see if a query string value was passed in, then fetch the data from MySQL if it is
 
-    if (req.query.id) {
+    if (!req.params.id || req.params.id.length === 0) {
+        return res.json({
+            error: 'no quote identifier provided',
+            data: null
+        })
+    }
 
-        const connection = mysql.createConnection({
-            host: 'p2d0untihotgr5f6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-            user: 'zsn9kncqtvumywkk',
-            password: 'jrj24hhp4uchfj03',
-            database: 'pvfhxur2aptwj0sr'
-        });
+    const connection = mysql.createConnection({
+        host: 'p2d0untihotgr5f6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        user: 'zsn9kncqtvumywkk',
+        password: 'jrj24hhp4uchfj03',
+        database: 'pvfhxur2aptwj0sr'
+    });
 
-        const selectOneSql = `
+    const selectOneSql = `
 SELECT q.*, CONCAT(a.firstName, ' ', a.lastName) AS 'fullName', a.sex AS 'gender'
 FROM l9_quotes q INNER JOIN
 l9_author a ON q.authorId = a.authorId
 WHERE q.quoteId = ?
 `;
-        // Get the data for the ID from the database, then pass into the view with the data
-        connection.connect();
+    // Get the data for the ID from the database, then pass into the view with the data
+    connection.connect();
 
-        connection.query(selectOneSql, [req.query.id],
-            function(error, results, fields) {
+    connection.query(selectOneSql, [req.params.id],
+        function(error, results, fields) {
 
-                //console.log('results', results[0]);
+            //console.log('results', results[0]);
 
-                if (error) throw error;
-
-                res.render('../public/labs/10/views/edit', {
-                    title: 'Lab 10 Edit Quote',
-                    data: results[0]
+            if (error) {
+                return res.json({
+                    error: error.message,
+                    data: null
                 });
-            });
+            };
 
-        connection.end();
-    }
-    else {
-        // No query string for a quote to edit so must be new
-        res.render('../public/labs/10/views/edit', {
-            title: 'Lab 10 Add Quote',
-            data: {} // No data
+            res.json({
+                error: null,
+                data: results[0]
+            });
         });
-    }
+
+    connection.end();
 
 });
 
@@ -161,7 +163,7 @@ router.delete('/quotes/delete', function(req, res, next) {
     if (!req.body.quoteId || req.body.quoteId.length === 0) {
         return next(new Error("There is a problem"));
     }
-    
+
     // Add check to see if there are any favorites, and if there are, send
     // back an error message and DO NOT attempt a DELETE
 

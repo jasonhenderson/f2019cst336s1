@@ -88,6 +88,7 @@ router.post('/files/db', upload.array('files', 4), (req, res) => {
 
     connection.connect();
 
+    // Translate the file data into a blob/buffer
     const fileData = fs.readFileSync(file.path);
     file.buffer = new Buffer(fileData);
   

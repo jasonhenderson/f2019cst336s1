@@ -46,6 +46,7 @@ var uploadExampleRouter = require('./public/examples/file-upload/router');
 // Labs
 var lab9Router = require('./public/labs/9/router');
 var lab10Router = require('./public/labs/10/router');
+var lab10jsonRouter = require('./public/labs/10json/router');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -63,6 +64,7 @@ app.use('/upload', uploadExampleRouter);
 // Labs
 app.use('/lab/9', lab9Router);
 app.use('/lab/10', lab10Router);
+app.use('/lab/10/json', lab10jsonRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

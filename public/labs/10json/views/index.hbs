@@ -1,0 +1,135 @@
+<h1>{{title}}</h1>
+<hr />
+<!-- USE BOOTSTRAP FLEXBOX INSTEAD OF TABLES -->
+<table>
+    <thead>
+        <tr>
+            <th class="w-25">quote</th>
+            <th>author</th>
+            <th>category</th>
+            <th>
+                <a class="btn btn-success" id="new" data-toggle="modal" data-target="#editModal">
+                    Add New Quote
+                    </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each quotes}}
+        <tr>
+            <td>{{quote}}</td>
+            <td>{{fullName}}</td>
+            <td>{{category}}</td>
+            <td>
+                <a class="btn btn-edit btn-primary" data-quoteId="{{quoteId}}" data-toggle="modal" data-target="#editModal">Edit</a>
+                <a class="btn btn-delete btn-danger" data-quoteId="{{quoteId}}" data-toggle="modal" data-target="#deleteModal">Delete</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Quote</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><label>authorId</label></td>
+                            <td>
+                                <input id="authorId" type="text" value="{{data.authorId}}" />
+                                <input id="quoteId" type="hidden" value="{{data.quoteId}}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>quote</label></td>
+                            <td><textarea rows="3" id="quote">{{data.quote}}</textarea></td>
+                        </tr>
+                        <tr>
+                            <td><label>category</label></td>
+                            <td><input id="category" type="text" value="{{data.category}}" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button id="saveButton" class="btn btn-primary">Save</button>
+                                <button id="cancelButton" class="btn btn-secondary">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>id</label></td>
+                            <td><input id="id" type="text" disabled /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button id="editCancelButton" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <butto id="editSaveButton" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Quote</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Delete Quote</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".btn-edit").on("click", function(e) {
+        console.log("Quote ID is", $(e.target).data('quoteid'));
+    })
+
+    /*
+        $("#editSaveButton").on("click", function() {
+            $.ajax({
+                type: "POST",
+                url: "/lab/10/json/quotes/edit",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "quoteId": $("#quoteId").val(),
+                    "authorId": $("#authorId").val(),
+                    "quote": $("#quote").val(),
+                    "category": $("#category").val(),
+                }),
+                success: function(data, status) {
+                    console.log("got data back", data);
+                    
+                },
+                error: function(xhr, status, error) {
+                    err = eval("(" + xhr.responseText + ")");
+                    console.error(err);
+                },
+                complete: function(data, status) { //optional, used for debugging purposes
+                    console.log(status);
+                }
+            });
+        })
+        */
+</script>

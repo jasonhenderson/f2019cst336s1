@@ -16,5 +16,5 @@ Happy coding!
 ```mermaid
 mindmap
   root(does this work?)
-
+  something else       
 ```
